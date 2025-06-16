@@ -9,21 +9,42 @@
       text-align: center;
       margin-top: 100px;
       background-color: #fff0f5;
+      overflow-x: hidden;
     }
-    #pertanyaan2, #formNama, #ucapan, #bukanUltah {
+
+    #pertanyaan2, #formNama, #ucapan, #bukanUltah, #tombolHadiah {
       display: none;
       margin-top: 20px;
     }
+
     input, button {
       font-size: 18px;
       padding: 10px 20px;
       margin: 10px;
     }
+
     .btn-group {
       display: flex;
       justify-content: center;
       gap: 20px;
       flex-wrap: wrap;
+    }
+
+    .emoji {
+      position: absolute;
+      animation: jatuh 3s linear forwards;
+      font-size: 30px;
+    }
+
+    @keyframes jatuh {
+      0% {
+        transform: translateY(-100px);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
     }
   </style>
 </head>
@@ -42,7 +63,10 @@
   </div>
 
   <div id="ucapan"></div>
-  <div id="bukanUltah"><p>Yahhh... bohong yaa kamuuu??</p></div>
+  <div id="tombolHadiah">
+    <button onclick="emojiJatuh()">Klik untuk dapet hadiah 🎁</button>
+  </div>
+  <div id="bukanUltah"><p>Bohongg yaaa.... ayo pencet ulang link nya trs pilih IYA !! </p></div>
 
   <script>
     function jawabanUltah(isUltah) {
@@ -65,13 +89,33 @@
 
       document.getElementById("pertanyaan2").style.display = "none";
       document.getElementById("ucapan").style.display = "block";
+      document.getElementById("tombolHadiah").style.display = "block";
+
       document.getElementById("ucapan").innerHTML = `
         <p>Selamat Ulang Tahun, <strong>${nama}</strong>! 🎉</p>
         <p>Semoga makin tua makin lucu, makin sukses, dan makin disayang dompet! 💸</p>
         <p>Jangan lupa traktiran yaa~ 😋</p>
       `;
     }
+
+    function emojiJatuh() {
+      const emojiList = ['🎉', '🎁', '🎂', '🎈', '✨', '💖'];
+      for (let i = 0; i < 30; i++) {
+        const emoji = document.createElement('div');
+        emoji.className = 'emoji';
+        emoji.innerText = emojiList[Math.floor(Math.random() * emojiList.length)];
+        emoji.style.left = Math.random() * window.innerWidth + 'px';
+        emoji.style.top = '-50px';
+        document.body.appendChild(emoji);
+
+        // Hapus setelah animasi selesai
+        setTimeout(() => {
+          emoji.remove();
+        }, 3000);
+      }
+    }
   </script>
 
 </body>
 </html>
+
