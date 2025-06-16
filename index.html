@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Ucapan Ulang Tahun Lucu</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #FFD6EC 0%, #C2FFD2 100%);
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .card {
+      background: #fffbea;
+      padding: 30px 50px;
+      border-radius: 24px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .emoji {
+      font-size: 66px;
+      animation: bounce 1s infinite alternate;
+      display: block;
+      margin-bottom: 15px;
+    }
+    @keyframes bounce {
+      0% { transform: translateY(0);}
+      100% { transform: translateY(-18px);}
+    }
+    .btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      background: #ffe066;
+      color: #8f5d00;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.2s;
+    }
+    .btn:hover {
+      background: #ffd700;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <span class="emoji" id="emoji">🎉</span>
+    <h1 id="greeting">Selamat Ulang Tahun!</h1>
+    <p id="message">
+      Semoga makin tua makin lucu, makin sukses, dan makin disayang dompet! 🥳<br>
+      Jangan lupa traktiran, kalau nggak... siap-siap diculik alien! 👽
+    </p>
+    <button class="btn" onclick="randomUcapan()">Ganti Ucapan</button>
+  </div>
+  <script>
+    const emojis = ["🎉","🥳","🎂","🦄","🐸","👽","🤩","😂"];
+    const ucapanList = [
+      "Semoga makin tua makin lucu, makin sukses, dan makin disayang dompet! 🥳<br>Jangan lupa traktiran, kalau nggak... siap-siap diculik alien! 👽",
+      "Happy birthday! Semoga umurmu panjang kayak benang layangan putus. Jangan lupa bahagia, jangan lupa hutang! 😂",
+      "Ultah lagi, ultah lagi. Tetap muda, tetap kece, walau dompet tetap tipis! 🎂",
+      "Selamat ulang tahun! Semoga hari-harimu cerah kayak sinyal WiFi di cafe. 🤩",
+      "Ulang tahun tuh kayak update aplikasi... makin baru, makin banyak fiturnya (dan bug-nya)! 🐞",
+      "Semoga rezekimu lancar, cinta makin mekar, dan pipi makin tegar menghadapi kue ulang tahun! 🎂"
+    ];
+    function randomUcapan() {
+      const emoji = emojis[Math.floor(Math.random()*emojis.length)];
+      document.getElementById('emoji').textContent = emoji;
+      const ucapan = ucapanList[Math.floor(Math.random()*ucapanList.length)];
+      document.getElementById('message').innerHTML = ucapan;
+    }
+  </script>
+</body>
+</html>
