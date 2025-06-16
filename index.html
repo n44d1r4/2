@@ -2,77 +2,76 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Ucapan Ulang Tahun Lucu</title>
+  <title>Ucapan Ultah</title>
   <style>
     body {
-      background: linear-gradient(135deg, #FFD6EC 0%, #C2FFD2 100%);
-      font-family: 'Comic Sans MS', cursive, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
-    .card {
-      background: #fffbea;
-      padding: 30px 50px;
-      border-radius: 24px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      font-family: 'Segoe UI', sans-serif;
       text-align: center;
+      margin-top: 100px;
+      background-color: #fff0f5;
     }
-    .emoji {
-      font-size: 66px;
-      animation: bounce 1s infinite alternate;
-      display: block;
-      margin-bottom: 15px;
-    }
-    @keyframes bounce {
-      0% { transform: translateY(0);}
-      100% { transform: translateY(-18px);}
-    }
-    .btn {
+    #pertanyaan2, #formNama, #ucapan, #bukanUltah {
+      display: none;
       margin-top: 20px;
-      padding: 10px 20px;
-      font-size: 18px;
-      border: none;
-      border-radius: 8px;
-      background: #ffe066;
-      color: #8f5d00;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background 0.2s;
     }
-    .btn:hover {
-      background: #ffd700;
+    input, button {
+      font-size: 18px;
+      padding: 10px 20px;
+      margin: 10px;
+    }
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <span class="emoji" id="emoji">🎉</span>
-    <h1 id="greeting">Selamat Ulang Tahun!</h1>
-    <p id="message">
-      Semoga makin tua makin lucu, makin sukses, dan makin disayang dompet! 🥳<br>
-      Jangan lupa traktiran, kalau nggak... siap-siap diculik alien! 👽
-    </p>
-    <button class="btn" onclick="randomUcapan()">Ganti Ucapan</button>
+
+  <h2 id="pertanyaan1">Kamu beneran ulang tahun hari ini? 🎉</h2>
+  <div class="btn-group">
+    <button onclick="jawabanUltah(true)">Iya</button>
+    <button onclick="jawabanUltah(false)">Enggak</button>
   </div>
+
+  <div id="pertanyaan2">
+    <h3>Masukin nama kamu dulu dong 🎂</h3>
+    <input type="text" id="namaInput" placeholder="Nama kamu di sini..." />
+    <button onclick="tampilkanUcapan()">Lihat Ucapan</button>
+  </div>
+
+  <div id="ucapan"></div>
+  <div id="bukanUltah"><p>Yahhh... bohong yaa kamuuu??</p></div>
+
   <script>
-    const emojis = ["🎉","🥳","🎂","🦄","🐸","👽","🤩","😂"];
-    const ucapanList = [
-      "Semoga makin tua makin lucu, makin sukses, dan makin disayang dompet! 🥳<br>Jangan lupa traktiran, kalau nggak... siap-siap diculik alien! 👽",
-      "Happy birthday! Semoga umurmu panjang kayak benang layangan putus. Jangan lupa bahagia, jangan lupa hutang! 😂",
-      "Ultah lagi, ultah lagi. Tetap muda, tetap kece, walau dompet tetap tipis! 🎂",
-      "Selamat ulang tahun! Semoga hari-harimu cerah kayak sinyal WiFi di cafe. 🤩",
-      "Ulang tahun tuh kayak update aplikasi... makin baru, makin banyak fiturnya (dan bug-nya)! 🐞",
-      "Semoga rezekimu lancar, cinta makin mekar, dan pipi makin tegar menghadapi kue ulang tahun! 🎂"
-    ];
-    function randomUcapan() {
-      const emoji = emojis[Math.floor(Math.random()*emojis.length)];
-      document.getElementById('emoji').textContent = emoji;
-      const ucapan = ucapanList[Math.floor(Math.random()*ucapanList.length)];
-      document.getElementById('message').innerHTML = ucapan;
+    function jawabanUltah(isUltah) {
+      document.getElementById("pertanyaan1").style.display = "none";
+      document.querySelector(".btn-group").style.display = "none";
+
+      if (isUltah) {
+        document.getElementById("pertanyaan2").style.display = "block";
+      } else {
+        document.getElementById("bukanUltah").style.display = "block";
+      }
+    }
+
+    function tampilkanUcapan() {
+      const nama = document.getElementById("namaInput").value;
+      if (nama.trim() === "") {
+        alert("Masukin nama dulu yaa 😝");
+        return;
+      }
+
+      document.getElementById("pertanyaan2").style.display = "none";
+      document.getElementById("ucapan").style.display = "block";
+      document.getElementById("ucapan").innerHTML = `
+        <p>Selamat Ulang Tahun, <strong>${nama}</strong>! 🎉</p>
+        <p>Semoga makin tua makin lucu, makin sukses, dan makin disayang dompet! 💸</p>
+        <p>Jangan lupa traktiran yaa~ 😋</p>
+      `;
     }
   </script>
+
 </body>
 </html>
