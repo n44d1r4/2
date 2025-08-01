@@ -1,141 +1,129 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Selamat Ulang Tahun!</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
       text-align: center;
-      margin-top: 100px;
+      padding: 30px;
       background-color: #fff0f5;
-      overflow-x: hidden;
     }
-
-    #pertanyaan2, #kalender, #ucapan, #bukanUltah, #tombolHadiah {
+    .hidden {
       display: none;
-      margin-top: 20px;
     }
-
-    input, button, select {
-      font-size: 18px;
-      padding: 10px 20px;
-      margin: 10px;
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
+      max-width: 300px;
+      margin: 20px auto;
     }
-
-    .btn-group {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
+    .calendar button {
+      padding: 15px;
+      font-size: 16px;
+      border: none;
+      background-color: #ffe4e1;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
     }
-
+    .calendar button:hover {
+      background-color: #ffb6c1;
+    }
     .emoji {
-      position: absolute;
-      animation: jatuh 3s linear forwards;
       font-size: 30px;
-      pointer-events: none;
+      animation: fall 1.5s infinite;
     }
-
-    @keyframes jatuh {
-      0% {
-        transform: translateY(-100px);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(100vh);
-        opacity: 0;
-      }
+    @keyframes fall {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(30px); }
     }
-
-    .cake {
-      font-size: 80px;
-      animation: fadeIn 2s ease-in-out;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.5); }
-      to { opacity: 1; transform: scale(1); }
+    #gift {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 18px;
     }
   </style>
 </head>
 <body>
-
-  <h2 id="pertanyaan1">Haiii kamu ulang tahun ya hari iniii? 🎉</h2>
-  <div class="btn-group">
-    <button onclick="jawabanUltah(true)">Iya</button>
-    <button onclick="jawabanUltah(false)">Enggak</button>
+  <div id="step1">
+    <h1>Haiii kamu ulang tahun ya hari iniii?</h1>
+    <button onclick="checkYes(true)">Iya</button>
+    <button onclick="checkYes(false)">Enggak</button>
   </div>
 
-  <div id="bukanUltah">
-    <p>Boong kamu kan ultahhh, aku tauuu 😝<br>
-    Ayo balik dan pilih <strong>IYA!</strong></p>
+  <div id="boong" class="hidden">
+    <p>Boong kamu kan ulang tahun, aku tauuu 😆 Ayo back dan pilih Iya!</p>
   </div>
 
-  <div id="kalender">
-    <h3>Pilih tanggal ulang tahunmu di bulan Agustus 🎂</h3>
-    <input type="date" id="tanggalInput" min="2025-08-01" max="2025-08-31" />
-    <br>
-    <button onclick="cekTanggal()">Lanjut</button>
+  <div id="calendarContainer" class="hidden">
+    <h2>Pilih tanggal ulang tahun kamu di bulan Agustus 🎉</h2>
+    <div class="calendar" id="calendar"></div>
   </div>
 
-  <div id="ucapan">
-    <div class="cake">🎂</div>
-    <h2>Selamat Ulang Tahun!!! 🎉</h2>
-    <p>Semoga harimu penuh tawa, cinta, dan kejutan manis~ 🎈</p>
-    <p>Jangan lupa traktiran yaa 😋</p>
+  <div id="wrongDate" class="hidden">
+    <p>Ngapain aku tau kamu ulang tahunnya bukan di tanggal ini 😜</p>
+    <audio id="wrongSound" src="https://www.soundjay.com/button/beep-07.wav"></audio>
   </div>
 
-  <div id="tombolHadiah">
-    <button onclick="emojiJatuh()">Klik untuk dapat hadiah 🎁</button>
+  <div id="birthdayMessage" class="hidden">
+    <h2>Selamat Ulang Tahunnn!!! 🎂🎈</h2>
+    <img src="https://i.imgur.com/7kG7zIV.png" alt="Kue Ulang Tahun" width="200">
+    <div class="emoji">🎉🎁🎊</div>
+    <button id="gift" onclick="alert('Hadiah rahasia datang sebentar lagi! 🎁🎉')">Klik ini untuk dapat hadiah!</button>
+    <audio id="bgMusic" autoplay loop>
+      <source src="https://www.bensound.com/bensound-music/bensound-birthday.mp3" type="audio/mpeg">
+    </audio>
   </div>
-
-  <!-- Musik dan suara -->
-  <audio id="laguUltah" src="https://assets.mixkit.co/music/preview/mixkit-happy-birthday-to-you-1165.mp3" preload="auto"></audio>
-  <audio id="soundSalah" src="https://www.soundjay.com/button/beep-10.mp3" preload="auto"></audio>
 
   <script>
-    function jawabanUltah(isUltah) {
-      document.getElementById("pertanyaan1").style.display = "none";
-      document.querySelector(".btn-group").style.display = "none";
+    function checkYes(isYes) {
+      document.getElementById('step1').classList.add('hidden');
+      document.getElementById('boong').classList.add('hidden');
+      document.getElementById('calendarContainer').classList.add('hidden');
+      document.getElementById('wrongDate').classList.add('hidden');
+      document.getElementById('birthdayMessage').classList.add('hidden');
 
-      if (isUltah) {
-        document.getElementById("kalender").style.display = "block";
+      if (isYes) {
+        document.getElementById('calendarContainer').classList.remove('hidden');
+        generateCalendar();
       } else {
-        document.getElementById("bukanUltah").style.display = "block";
+        document.getElementById('boong').classList.remove('hidden');
       }
     }
 
-    function cekTanggal() {
-      const tanggal = document.getElementById("tanggalInput").value;
-      const tglValid = "2025-08-04";
-
-      if (tanggal === tglValid) {
-        document.getElementById("kalender").style.display = "none";
-        document.getElementById("ucapan").style.display = "block";
-        document.getElementById("tombolHadiah").style.display = "block";
-        document.getElementById("laguUltah").play();
-      } else {
-        document.getElementById("soundSalah").play();
-        alert("Ngapain? Aku tau ulang tahun kamu bukan di tanggal ini 😏");
+    function generateCalendar() {
+      const calendar = document.getElementById('calendar');
+      calendar.innerHTML = "";
+      for (let i = 1; i <= 31; i++) {
+        const btn = document.createElement('button');
+        btn.textContent = i;
+        btn.onclick = () => handleDateClick(i);
+        calendar.appendChild(btn);
       }
     }
 
-    function emojiJatuh() {
-      const emojiList = ['🎉', '🎁', '🎂', '🎈', '✨', '💖'];
-      for (let i = 0; i < 30; i++) {
-        const emoji = document.createElement('div');
-        emoji.className = 'emoji';
-        emoji.innerText = emojiList[Math.floor(Math.random() * emojiList.length)];
-        emoji.style.left = Math.random() * window.innerWidth + 'px';
-        emoji.style.top = '-50px';
-        document.body.appendChild(emoji);
-        setTimeout(() => emoji.remove(), 3000);
+    function handleDateClick(date) {
+      document.getElementById('wrongDate').classList.add('hidden');
+      document.getElementById('birthdayMessage').classList.add('hidden');
+      if (date === 4) {
+        document.getElementById('calendarContainer').classList.add('hidden');
+        document.getElementById('birthdayMessage').classList.remove('hidden');
+      } else {
+        document.getElementById('wrongDate').classList.remove('hidden');
+        document.getElementById('wrongSound').play();
       }
     }
   </script>
-
 </body>
 </html>
+
 
 
