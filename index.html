@@ -32,10 +32,6 @@
     .calendar button:hover {
       background-color: #ffb6c1;
     }
-    .emoji {
-      font-size: 30px;
-      animation: fall 1.5s infinite;
-    }
     .falling-emoji {
       font-size: 24px;
       position: fixed;
@@ -63,6 +59,10 @@
       font-size: 20px;
       margin: 15px 0;
     }
+    #cakeImage {
+      width: 200px;
+      margin: 20px auto;
+    }
   </style>
 </head>
 <body>
@@ -88,7 +88,7 @@
 
   <div id="birthdayMessage" class="hidden">
     <h2>Selamat Ulang Tahunnn!!! 🎂🎈</h2>
-    <div id="bigCakeEmoji">🎂</div>
+    <img id="cakeImage" src="https://i.postimg.cc/j2XsmWff/birthday-cake-animated.gif" alt="Kue Ulang Tahun" />
     <div id="sweetMessage">Semoga harimu penuh dengan cinta, tawa, dan kejutan indah 💖💫</div>
     <button id="gift" onclick="startEmojiRain()">Klik ini 10x untuk dapat hadiah 🎁</button>
     <audio id="bgMusic" autoplay loop>
@@ -164,7 +164,5 @@
   </script>
 </body>
 </html>
-
-
 
 
