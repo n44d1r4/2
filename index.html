@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Ucapan Ultah</title>
+  <title>Selamat Ulang Tahun!</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -10,15 +10,14 @@
       margin-top: 100px;
       background-color: #fff0f5;
       overflow-x: hidden;
-      transition: background-color 0.5s ease;
     }
 
-    #pertanyaan2, #formNama, #ucapan, #bukanUltah, #tombolHadiah {
+    #pertanyaan2, #kalender, #ucapan, #bukanUltah, #tombolHadiah {
       display: none;
       margin-top: 20px;
     }
 
-    input, button {
+    input, button, select {
       font-size: 18px;
       padding: 10px 20px;
       margin: 10px;
@@ -35,6 +34,7 @@
       position: absolute;
       animation: jatuh 3s linear forwards;
       font-size: 30px;
+      pointer-events: none;
     }
 
     @keyframes jatuh {
@@ -47,83 +47,81 @@
         opacity: 0;
       }
     }
+
+    .cake {
+      font-size: 80px;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.5); }
+      to { opacity: 1; transform: scale(1); }
+    }
   </style>
 </head>
 <body>
 
-  <h2 id="pertanyaan1">Kamu beneran ulang tahun hari ini? 🎉</h2>
+  <h2 id="pertanyaan1">Haiii kamu ulang tahun ya hari iniii? 🎉</h2>
   <div class="btn-group">
     <button onclick="jawabanUltah(true)">Iya</button>
     <button onclick="jawabanUltah(false)">Enggak</button>
   </div>
 
-  <div id="pertanyaan2">
-    <h3>Masukin nama kamu dulu dong 🎂</h3>
-    <input type="text" id="namaInput" placeholder="Nama kamu di sini..." />
-    <button onclick="tampilkanUcapan()">Lihat Ucapan</button>
+  <div id="bukanUltah">
+    <p>Boong kamu kan ultahhh, aku tauuu 😝<br>
+    Ayo balik dan pilih <strong>IYA!</strong></p>
   </div>
 
-  <div id="ucapan"></div>
+  <div id="kalender">
+    <h3>Pilih tanggal ulang tahunmu di bulan Agustus 🎂</h3>
+    <input type="date" id="tanggalInput" min="2025-08-01" max="2025-08-31" />
+    <br>
+    <button onclick="cekTanggal()">Lanjut</button>
+  </div>
+
+  <div id="ucapan">
+    <div class="cake">🎂</div>
+    <h2>Selamat Ulang Tahun!!! 🎉</h2>
+    <p>Semoga harimu penuh tawa, cinta, dan kejutan manis~ 🎈</p>
+    <p>Jangan lupa traktiran yaa 😋</p>
+  </div>
+
   <div id="tombolHadiah">
-    <button onclick="emojiJatuh()">Klik untuk dapet hadiah 🎁</button>
+    <button onclick="emojiJatuh()">Klik untuk dapat hadiah 🎁</button>
   </div>
-  <div id="bukanUltah"><p>Bohongg yaaa... ayo pencet ulang link-nya terus pilih IYA!! 😝</p></div>
 
-  <!-- Musik Ulang Tahun -->
-  <audio id="audioUltah" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" preload="auto"></audio>
-  <!-- Efek Suara Bohong -->
-  <audio id="audioBohong" src="https://www.myinstants.com/media/sounds/wrong-answer.mp3" preload="auto"></audio>
+  <!-- Musik dan suara -->
+  <audio id="laguUltah" src="https://assets.mixkit.co/music/preview/mixkit-happy-birthday-to-you-1165.mp3" preload="auto"></audio>
+  <audio id="soundSalah" src="https://www.soundjay.com/button/beep-10.mp3" preload="auto"></audio>
 
   <script>
-    const ucapanList = [
-      "Selamat Ulang Tahun, <strong>{nama}</strong>! 🎉 Semoga makin kece dan nggak pelupa 😜",
-      "Happy B’day <strong>{nama}</strong>! 🎈 Semoga makin dewasa, tapi tetap ngangenin 😚",
-      "Ultah ya? Wah fix makin tua nih, <strong>{nama}</strong> 🧓 Tetap semangat!",
-      "Selamat ulang tahun, <strong>{nama}</strong>! 💸 Semoga dompetmu makin tebal!",
-      "Wah hari spesial <strong>{nama}</strong> nih! 🎂 Jangan lupa traktiran yaa~ 😋"
-    ];
-
     function jawabanUltah(isUltah) {
       document.getElementById("pertanyaan1").style.display = "none";
       document.querySelector(".btn-group").style.display = "none";
 
       if (isUltah) {
-        document.getElementById("pertanyaan2").style.display = "block";
+        document.getElementById("kalender").style.display = "block";
       } else {
         document.getElementById("bukanUltah").style.display = "block";
-        document.getElementById("audioBohong").play();
       }
     }
 
-    function tampilkanUcapan() {
-      const nama = document.getElementById("namaInput").value.trim();
-      if (nama === "") {
-        alert("Masukin nama dulu yaa 😝");
-        return;
+    function cekTanggal() {
+      const tanggal = document.getElementById("tanggalInput").value;
+      const tglValid = "2025-08-04";
+
+      if (tanggal === tglValid) {
+        document.getElementById("kalender").style.display = "none";
+        document.getElementById("ucapan").style.display = "block";
+        document.getElementById("tombolHadiah").style.display = "block";
+        document.getElementById("laguUltah").play();
+      } else {
+        document.getElementById("soundSalah").play();
+        alert("Ngapain? Aku tau ulang tahun kamu bukan di tanggal ini 😏");
       }
-
-      const ucapanRandom = ucapanList[Math.floor(Math.random() * ucapanList.length)].replace("{nama}", nama);
-
-      document.getElementById("pertanyaan2").style.display = "none";
-      document.getElementById("ucapan").style.display = "block";
-      document.getElementById("tombolHadiah").style.display = "block";
-
-      document.getElementById("ucapan").innerHTML = `
-        <p>${ucapanRandom}</p>
-        <img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif" width="200" alt="party gif"/>
-      `;
-    }
-
-    function getRandomColor() {
-      const colors = ["#FFB6C1", "#FFFACD", "#E6E6FA", "#D1EEEE", "#F0FFF0", "#FFDAB9", "#C1FFC1"];
-      return colors[Math.floor(Math.random() * colors.length)];
     }
 
     function emojiJatuh() {
-      document.body.style.backgroundColor = getRandomColor();
-      const audio = document.getElementById("audioUltah");
-      audio.play();
-
       const emojiList = ['🎉', '🎁', '🎂', '🎈', '✨', '💖'];
       for (let i = 0; i < 30; i++) {
         const emoji = document.createElement('div');
@@ -132,13 +130,12 @@
         emoji.style.left = Math.random() * window.innerWidth + 'px';
         emoji.style.top = '-50px';
         document.body.appendChild(emoji);
-
-        setTimeout(() => {
-          emoji.remove();
-        }, 3000);
+        setTimeout(() => emoji.remove(), 3000);
       }
     }
   </script>
 
 </body>
 </html>
+
+
