@@ -10,6 +10,7 @@
       margin-top: 100px;
       background-color: #fff0f5;
       overflow-x: hidden;
+      transition: background-color 0.5s ease;
     }
 
     #pertanyaan2, #formNama, #ucapan, #bukanUltah, #tombolHadiah {
@@ -66,9 +67,22 @@
   <div id="tombolHadiah">
     <button onclick="emojiJatuh()">Klik untuk dapet hadiah 🎁</button>
   </div>
-  <div id="bukanUltah"><p>Bohongg yaaa.... ayo pencet ulang link nya trs pilih IYA !! </p></div>
+  <div id="bukanUltah"><p>Bohongg yaaa... ayo pencet ulang link-nya terus pilih IYA!! 😝</p></div>
+
+  <!-- Musik Ulang Tahun -->
+  <audio id="audioUltah" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" preload="auto"></audio>
+  <!-- Efek Suara Bohong -->
+  <audio id="audioBohong" src="https://www.myinstants.com/media/sounds/wrong-answer.mp3" preload="auto"></audio>
 
   <script>
+    const ucapanList = [
+      "Selamat Ulang Tahun, <strong>{nama}</strong>! 🎉 Semoga makin kece dan nggak pelupa 😜",
+      "Happy B’day <strong>{nama}</strong>! 🎈 Semoga makin dewasa, tapi tetap ngangenin 😚",
+      "Ultah ya? Wah fix makin tua nih, <strong>{nama}</strong> 🧓 Tetap semangat!",
+      "Selamat ulang tahun, <strong>{nama}</strong>! 💸 Semoga dompetmu makin tebal!",
+      "Wah hari spesial <strong>{nama}</strong> nih! 🎂 Jangan lupa traktiran yaa~ 😋"
+    ];
+
     function jawabanUltah(isUltah) {
       document.getElementById("pertanyaan1").style.display = "none";
       document.querySelector(".btn-group").style.display = "none";
@@ -77,28 +91,39 @@
         document.getElementById("pertanyaan2").style.display = "block";
       } else {
         document.getElementById("bukanUltah").style.display = "block";
+        document.getElementById("audioBohong").play();
       }
     }
 
     function tampilkanUcapan() {
-      const nama = document.getElementById("namaInput").value;
-      if (nama.trim() === "") {
+      const nama = document.getElementById("namaInput").value.trim();
+      if (nama === "") {
         alert("Masukin nama dulu yaa 😝");
         return;
       }
+
+      const ucapanRandom = ucapanList[Math.floor(Math.random() * ucapanList.length)].replace("{nama}", nama);
 
       document.getElementById("pertanyaan2").style.display = "none";
       document.getElementById("ucapan").style.display = "block";
       document.getElementById("tombolHadiah").style.display = "block";
 
       document.getElementById("ucapan").innerHTML = `
-        <p>Selamat Ulang Tahun, <strong>${nama}</strong>! 🎉</p>
-        <p>Semoga makin tua makin lucu, makin sukses, dan makin disayang dompet! 💸</p>
-        <p>Jangan lupa traktiran yaa~ 😋</p>
+        <p>${ucapanRandom}</p>
+        <img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif" width="200" alt="party gif"/>
       `;
     }
 
+    function getRandomColor() {
+      const colors = ["#FFB6C1", "#FFFACD", "#E6E6FA", "#D1EEEE", "#F0FFF0", "#FFDAB9", "#C1FFC1"];
+      return colors[Math.floor(Math.random() * colors.length)];
+    }
+
     function emojiJatuh() {
+      document.body.style.backgroundColor = getRandomColor();
+      const audio = document.getElementById("audioUltah");
+      audio.play();
+
       const emojiList = ['🎉', '🎁', '🎂', '🎈', '✨', '💖'];
       for (let i = 0; i < 30; i++) {
         const emoji = document.createElement('div');
@@ -108,7 +133,6 @@
         emoji.style.top = '-50px';
         document.body.appendChild(emoji);
 
-        // Hapus setelah animasi selesai
         setTimeout(() => {
           emoji.remove();
         }, 3000);
@@ -118,4 +142,3 @@
 
 </body>
 </html>
-
